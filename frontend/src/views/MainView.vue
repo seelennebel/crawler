@@ -1,12 +1,12 @@
 <template>
 
-  <h1>This is the home view</h1>
+  <NavBar />
 
 </template>
 
 <script setup>
 
-
+import NavBar from "../components/NavBar.vue";
 
 </script>
 
