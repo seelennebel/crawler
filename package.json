@@ -1,0 +1,26 @@
+{
+  "name": "crawler",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "server": "cd server; node server.js",
+    "dev": "cd frontend; vite",
+    "build": "cd frontend; vite build",
+    "preview": "cd frontend; vite preview"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "node": "^22.10.0",
+    "vue": "^3.5.12",
+    "vue-router": "^4.4.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.1.4",
+    "vite": "^5.4.8"
+  }
+}
