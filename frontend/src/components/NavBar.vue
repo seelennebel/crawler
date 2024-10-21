@@ -13,6 +13,7 @@
 </script setup>
 
 <style scoped>
+
 #navbar {
 
   width: 100vw;
@@ -29,4 +30,5 @@
   font-size: 3 em;
 
 }
+
 </style>
