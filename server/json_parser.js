@@ -213,6 +213,9 @@ class json_parser {
                 virtual_classroom_link: virtual_classroom_link,
                 errors: this.create_errors_string(this.check_errors(res_events[i]))
             }
+            if(json.events[i].title == "") {
+                json.events[i].title = "No title";
+            }
         }
         return json;
     }

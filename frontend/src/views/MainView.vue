@@ -2,17 +2,23 @@
 
   <NavBar @date-selection="(date) => fetch_events(date)" />
 
+  <main>
+    <div id="content-div">
+      <Event :events="events" />
+    </div>    
+  </main>
+
 </template>
 
 <script setup>
 
 import NavBar from "../components/NavBar.vue";
+import Event from "../components/Event.vue"; 
 
 import { ref, onMounted } from "vue";
 import { RouterView } from "vue-router";
 
 const current_date = ref("");
-//const selected_date = ref("");
 const events = ref([]);
 
 // used for ISO strings
@@ -27,7 +33,7 @@ const trim_time_string = (time_string) => {
 current_date.value = trim_time_string(new Date().toISOString())
 
 const fetch_events = (date) => {
-  const url = `${process.env.VUE_APP_SERVER_URL}api/fetch_events_with_errors`;
+  const url = `${import.meta.env.APP_SERVER_URL}api/fetch_events_with_errors`;
   const options = {
     method: "POST",
     headers: {
@@ -46,7 +52,7 @@ const fetch_events = (date) => {
 
 onMounted(() => {
 
-const url = `${process.env.VUE_APP_SERVER_URL}api/fetch_events_with_errors`;
+const url = `${import.meta.env.APP_SERVER_URL}api/fetch_events_with_errors`;
 const options = {
   method: "POST",
   headers: {
@@ -66,4 +72,27 @@ fetch(url, options)
 
 </script>
 
-<style scoped></style>
+<style scoped>
+
+main {
+
+  width: 100vw;
+  height: fit-content;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  
+}
+
+#content-div {
+
+  width: 80vw;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+
+}
+
+</style>
