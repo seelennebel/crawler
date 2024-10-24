@@ -6,7 +6,7 @@
     </div>
     <div id="right-group">
       <button class="noto-sans-button" id="download-button">download</button>
-      <input class="noto-sans-button" type="date" placeholder="search" />
+      <input @input="$emit('date-selection', selected_date)" v-model="selected_date" class="noto-sans-button" type="date" placeholder="search" />
       <button class="noto-sans-button" id="refresh-button">&#8635;</button>
     </div>
   </div>
@@ -14,6 +14,11 @@
 </template>
 
 <script setup>
+
+import { ref } from "vue";
+
+const selected_date = ref("")
+
 </script>
 
 <style scoped>
