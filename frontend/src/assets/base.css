@@ -1,6 +1,7 @@
 :root {
 
   --background-color: #1f1f1f;
+  font-size: 10px;
 
 }
 
@@ -19,5 +20,18 @@ body {
   font-style: normal;
   font-variation-settings:
     "width" 80;
+  font-size: 4rem;
+
+}
+
+.noto-sans-button {
+
+  font-family: "Noto Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings:
+    "width" 80;
+  font-size: 2rem;
 
 }
