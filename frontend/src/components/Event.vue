@@ -4,7 +4,7 @@
             <p>No events</p>
         </div>
         <div v-else v-for="event in updated_events" class="event-container">
-            <button class="close-button">&#215;</button>
+            <button @click="delete_event(event)" class="close-button">&#215;</button>
             <p>{{ event.start_time }}-{{ event.end_time }}</p>
             <p class="title">{{ event.title }}</p>
         </div>
@@ -23,21 +23,30 @@ const updated_events = computed(() => {
     return props.events;
 })
 
+const delete_event = (event) => {
+    for(let i = 0; i < props.events.length; ++i) {
+        if (event.index == props.events[i].index) {
+            props.events.splice(i, 1);
+        }
+    }
+}
+
 </script>
 
 <style scoped>
 
 p {
-
     margin: 0;
     color: white;
 
 }
 
 .title {
-
-    width: 35vw;
-
+    width: 30vw;
+    border: 1px solid white;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding-left: 0.5rem;
 }
 
 .close-button {

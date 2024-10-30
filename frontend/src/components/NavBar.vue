@@ -7,7 +7,7 @@
     <div id="right-group">
       <button class="noto-sans-button" id="download-button">download</button>
       <input @input="$emit('date-selection', selected_date)" v-model="selected_date" class="noto-sans-button" type="date" placeholder="search" />
-      <button class="noto-sans-button" id="refresh-button">&#8635;</button>
+      <button @click="$emit('refresh', selected_date)" class="noto-sans-button" id="refresh-button">&#8635;</button>
     </div>
   </div>
 
@@ -24,7 +24,6 @@ const selected_date = ref("")
 <style scoped>
 
 button {
-
   margin: 0;
   height: fit-content;
   width: fit-content;

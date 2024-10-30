@@ -1,6 +1,6 @@
 <template>
 
-  <NavBar @date-selection="(date) => fetch_events(date)" />
+  <NavBar @refresh="(date) => refresh(date)" @date-selection="(date) => {fetch_events(date)}" />
 
   <main>
     <div id="content-div">
@@ -18,8 +18,8 @@ import Event from "../components/Event.vue";
 import { ref, onMounted } from "vue";
 import { RouterView } from "vue-router";
 
-const current_date = ref("");
 const events = ref([]);
+const selected_date = ref("");
 
 // used for ISO strings
 const trim_time_string = (time_string) => {
@@ -30,7 +30,14 @@ const trim_time_string = (time_string) => {
   return new_string;
 }
 
-current_date.value = trim_time_string(new Date().toISOString())
+const refresh = (date) => {
+  if(date == "") {
+    fetch_events(trim_time_string(new Date().toISOString()));
+  }
+  else {
+    fetch_events(date);
+  }
+}
 
 const fetch_events = (date) => {
   const url = `${import.meta.env.APP_SERVER_URL}api/fetch_events_with_errors`;
