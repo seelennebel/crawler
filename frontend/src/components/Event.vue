@@ -1,7 +1,7 @@
 <template>
 
         <div v-if="updated_events.length === 0" class="container">
-            <p>No events</p>
+            <p id="no-events-text">No events</p>
         </div>
         <div v-else v-for="event in updated_events" class="event-container">
             <button @click="delete_event(event)" class="close-button">&#215;</button>
@@ -72,6 +72,10 @@ p {
     align-items: center;
     gap: 1rem;
 
+}
+
+#no-events-text {
+    font-size: 3rem;
 }
 
 </style>
