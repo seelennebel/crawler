@@ -5,7 +5,7 @@
       <h1 id="logo" class="noto-sans-logo">Crawler</h1>
     </div>
     <div id="right-group">
-      <button class="noto-sans-button" id="download-button">download</button>
+      <button @click="$emit('show-popup', true)" class="noto-sans-button" id="download-button">download</button>
       <input @input="$emit('date-selection', selected_date)" v-model="selected_date" class="noto-sans-button" type="date" placeholder="search" />
       <button @click="$emit('refresh', selected_date)" class="noto-sans-button" id="refresh-button">&#8635;</button>
     </div>

@@ -1,12 +1,15 @@
 <template>
 
-  <NavBar @refresh="(date) => refresh(date)" @date-selection="(date) => {fetch_events(date)}" />
+<div id="main" ref="main-div">
+  <Popup v-if="popup"/>
 
-  <main>
+  <div id="main-div">
+    <NavBar id="navbar" @show-popup="(status) => show_popup(status)" @refresh="(date) => refresh(date)" @date-selection="(date) => {fetch_events(date)}" />
     <div id="content-div">
       <Event :events="events" />
     </div>    
-  </main>
+  </div id="main-div">
+</div id="main">
 
 </template>
 
@@ -14,12 +17,20 @@
 
 import NavBar from "../components/NavBar.vue";
 import Event from "../components/Event.vue"; 
+import Popup from "../components/Popup.vue";
 
-import { ref, onMounted } from "vue";
+import { ref, onMounted, useTemplateRef } from "vue";
 import { RouterView } from "vue-router";
 
 const events = ref([]);
 const selected_date = ref("");
+const popup = ref(false);
+const main_div = useTemplateRef("main-div");
+
+const show_popup = (status) => {
+  main_div.value.style.overflowY = "";
+  popup.value = status;
+}
 
 // used for ISO strings
 const trim_time_string = (time_string) => {
@@ -81,7 +92,13 @@ fetch(url, options)
 
 <style scoped>
 
-main {
+#main {
+  overflow-y: scroll;
+  height: 100vh;
+  width: 100vw;
+}
+
+#main-div {
 
   width: 100vw;
   height: fit-content;
@@ -89,7 +106,11 @@ main {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  
+  z-index: 0;
+}
+
+#navbar {
+  z-index: 0;
 }
 
 #content-div {
@@ -99,7 +120,6 @@ main {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-
 }
 
 </style>

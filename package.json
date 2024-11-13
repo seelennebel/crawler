@@ -6,7 +6,7 @@
   "main": "server.js",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "dev-server": "cd server; nodemon server.js",
+    "dev-server": "cd frontend; vite build; cd ../server; nodemon server.js",
     "server": "cd server; node server.js",
     "dev": "cd frontend; vite",
     "build": "cd frontend; vite build",
