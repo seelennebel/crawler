@@ -1,10 +1,15 @@
 <template>
 
 <div id="main" ref="main-div">
-  <Popup v-if="popup"/>
+  <Popup :date="selected_date" v-if="popup"/>
 
   <div id="main-div">
-    <NavBar id="navbar" @show-popup="(status) => show_popup(status)" @refresh="(date) => refresh(date)" @date-selection="(date) => {fetch_events(date)}" />
+
+    <NavBar id="navbar"
+      @show-popup="(status) => show_popup(status)"
+      @refresh="(date) => {refresh(date); selected_date = date}"
+      @date-selection="(date) => {fetch_events(date); selected_date = date}" />
+
     <div id="content-div">
       <Event :events="events" />
     </div>    
@@ -69,14 +74,14 @@ const fetch_events = (date) => {
 }
 
 onMounted(() => {
-
+selected_date.value = trim_time_string(new Date().toISOString())
 const url = `${import.meta.env.APP_SERVER_URL}api/fetch_events_with_errors`;
 const options = {
   method: "POST",
   headers: {
     "Content-Type": "application/json"
   },
-  body: JSON.stringify({ date: trim_time_string(new Date().toISOString()) })
+  body: JSON.stringify({ date: selected_date.value })
 };
 
 fetch(url, options)
