@@ -7,7 +7,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "dev-server": "cd frontend; vite build; cd ../server; nodemon server.js",
-    "server": "cd server; node server.js",
+    "server": "cd frontend; vite build; cd ../server; node server.js",
     "dev": "cd frontend; vite",
     "build": "cd frontend; vite build",
     "preview": "cd frontend; vite preview"
