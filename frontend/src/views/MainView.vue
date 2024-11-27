@@ -1,7 +1,7 @@
 <template>
 
-<div id="main" ref="main-div">
-  <Popup :date="selected_date" v-if="popup"/>
+<div id="main" ref="main-div" @keyup.esc="popup=false">
+  <Popup :date="selected_date" v-if="popup" />
 
   <div id="main-div">
 

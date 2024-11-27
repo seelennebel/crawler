@@ -1,5 +1,5 @@
 <template>
-    <div id="popup-div">
+    <div id="popup-div" @keyup.esc="popup=false">
        <div id="options-div">
             <div id="option-text" class="column-element">
                 <h1 class="noto-sans-button">SELECT AN OPTION</h1>
