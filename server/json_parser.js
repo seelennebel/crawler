@@ -214,7 +214,7 @@ class json_parser {
             let virtual_classroom_link = "";
 
             if(events_list[i].title == "") {
-                changed_title = "";
+                changed_title = "No title";
             }
             else {
                 changed_title = events_list[i].title

@@ -7,6 +7,10 @@
             <button @click="delete_event(event)" class="close-button">&#215;</button>
             <p>{{ event.start_time }}-{{ event.end_time }}</p>
             <p class="title">{{ event.title }}</p>
+            <div id="tutor-div">
+                <p v-if="event.tutor != ''">{{ event.tutor }}</p>
+                <p v-else id="tutor-error">No tutor</p>
+            </div>
         </div>
 
 </template>
@@ -72,6 +76,14 @@ p {
     align-items: center;
     gap: 1rem;
 
+}
+
+#tutor-error {
+    color: red;
+}
+
+#tutor-div {
+    width: 15vw;
 }
 
 #no-events-text {
