@@ -32,6 +32,7 @@ router.post("/fetch_events_with_errors", async (req, res) => {
   }
 });
 
+/*
 router.post("/download_file", (req, res) => {
   const { date } = req.body;
   const parser = new json_parser();
@@ -44,5 +45,6 @@ router.post("/download_file", (req, res) => {
     console.log(error);
   }
 });
+*/
 
 export default router;

@@ -2,6 +2,8 @@ import fs from "fs"
 import room_IDs from "./data/room_IDs.js";
 
 class json_parser {
+
+// fetch a raw calendar
     async fetch_calendar(date) {
         const options = {
             method: "GET",
@@ -17,6 +19,7 @@ class json_parser {
         return json;
     }
 
+// create a file with a "specfic" name
     create_file(date) {
         fs.open(`./EVENTS/SCHEDULE_events_${date}.csv`, "a", (err, file) => {
             if (err) {
@@ -26,6 +29,7 @@ class json_parser {
         });
     }
 
+// append the file
     append_file(date, contents) {
         fs.appendFile(`./EVENTS/SCHEDULE_events_${date}.csv`, contents, (err, file) => {
             if (err) {
@@ -35,6 +39,7 @@ class json_parser {
         });
     }
 
+// generates a string to append the file    
     generate_content_SCHEDULE(i, separator, start_date, end_date, title, who, room) {
         return `${i}${separator}"${start_date}-${end_date}"${separator}"${title}\n${who} (${room})"\n`;
     }
@@ -134,6 +139,7 @@ class json_parser {
         return errors;
     }
 
+/*
     no_errors(errors) {
         let error = true;
         for (var key in errors) {
@@ -152,7 +158,9 @@ class json_parser {
             return error;
         }
     }
-
+*/
+  
+/*
     create_errors_string(errors) {
         let errors_string = "";
         if (this.no_errors(errors)) {
@@ -179,42 +187,57 @@ class json_parser {
             return errors_string;
         }
     }
+*/
 
-    // generate the json object with errors
-    generate_json(events, json_format = false) {
+    is_valid(object, property) {
+        if(object.hasOwnProperty(property) || object[property] != undefined)
+            return true;
+        else {
+            return false;
+        }
+    }
+
+
+// generate the json object with errors
+    generate_json(events) {
 
         let json = {
             "events": []
         };
 
-        const res_events = events.events;
+        const events_list = events.events;
 
-        for (let i = 0; i < res_events.length; ++i) {
+        for(let i = 0; i < events_list.length; ++i) {
 
+            let changed_title = "";
             let campus_room_location = "";
             let virtual_classroom_link = "";
 
-            if (res_events.hasOwnProperty("custom")) {
-                if (res_events.custom.hasOwnProperty("campus_room_location")) {
-                    campus_room_location = res_events.custom.campus_room_location;
+            if(events_list[i].title == "") {
+                changed_title = "";
+            }
+            else {
+                changed_title = events_list[i].title
+            }
+
+            if (events_list[i].hasOwnProperty("custom")) {
+                if (this.is_valid(events_list[i].custom, "campus_room_location")) {
+                    campus_room_location = events_list[i].custom.campus_room_location;
                 }
-                if (res_events.custom.hasOwnProperty("virtual_classroom_link")) {
-                    virtual_classroom_link = res_events.custom.virtual_classroom_link;
+                if (this.is_valid(events_list[i].custom, "virtual_classroom_link")) {
+                    virtual_classroom_link = events_list[i].custom.virtual_classroom_link;
                 }
             }
 
             json.events[i] = {
                 index: i,
-                title: res_events[i].title,
-                start_time: this.time_string_parser(res_events[i].start_dt),
-                end_time: this.time_string_parser(res_events[i].end_dt),
-                tutor: res_events[i].who,
+                title: changed_title,
+                start_time: this.time_string_parser(events_list[i].start_dt),
+                end_time: this.time_string_parser(events_list[i].end_dt),
+                tutor: events_list[i].who,
                 location: campus_room_location,
                 virtual_classroom_link: virtual_classroom_link,
-                errors: this.create_errors_string(this.check_errors(res_events[i]))
-            }
-            if(json.events[i].title == "") {
-                json.events[i].title = "No title";
+                //errors: this.create_errors_string(this.check_errors(res_events[i]))
             }
         }
         return json;
