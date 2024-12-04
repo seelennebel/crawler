@@ -1,7 +1,7 @@
 <template>
 
-<div id="main" ref="main-div" @keyup.esc="popup=false">
-  <Popup :date="selected_date" v-if="popup" />
+<div id="main" ref="main-div" @keyup.esc="hide">
+  <Popup @show-popup="(status) => popup=status":date="selected_date" v-if="popup" />
 
   <div id="main-div">
 
@@ -14,7 +14,7 @@
       <Event :events="events" />
     </div>    
   </div id="main-div">
-</div id="main">
+</div>
 
 </template>
 
@@ -31,6 +31,10 @@ const events = ref([]);
 const selected_date = ref("");
 const popup = ref(false);
 const main_div = useTemplateRef("main-div");
+
+const hide = () => {
+  popup.value = false;
+}
 
 const show_popup = (status) => {
   main_div.value.style.overflowY = "";

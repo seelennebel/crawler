@@ -1,21 +1,26 @@
 <template>
-    <div id="popup-div" @keyup.esc="popup=false">
-       <div id="options-div">
-            <div id="option-text" class="column-element">
-                <h1 class="noto-sans-button">SELECT AN OPTION</h1>
+    <div id="popup-div">
+        <div id="options-div">
+            <div id="close-button-div">
+                <button @click="$emit('show-popup', false)" id="close-button">&#215;</button>
             </div>
-            <div id="parsing-options" class="column-element">
-                <button @click="select_option(canvas_option)" ref="canvas-button" class="noto-sans-button">{{ canvas_option }}</button>
-                <button @click="select_option(schedule_option)" ref="schedule-button" class="noto-sans-button">{{ schedule_option }}</button>
-                <h1 id="selected-option" class="noto-sans-button">{{ selected_option }}</h1>
-            </div>
-            <div id="generate-div" class="column-element">
-                <button @click="generate_file" class="noto-sans-button">GENERATE</button>
-            </div>
-            <div id="download-div" class="column-element">
-                <button class="noto-sans-button">DOWNLOAD</button>
-            </div>
-       </div> 
+           <div id="selection-div">
+                <div id="option-text" class="column-element">
+                    <h1 class="noto-sans-button">SELECT AN OPTION</h1>
+                </div>
+                <div id="parsing-options" class="column-element">
+                    <button @click="select_option(canvas_option)" ref="canvas-button" class="noto-sans-button">{{ canvas_option }}</button>
+                    <button @click="select_option(schedule_option)" ref="schedule-button" class="noto-sans-button">{{ schedule_option }}</button>
+                    <h1 id="selected-option" class="noto-sans-button">{{ selected_option }}</h1>
+                </div>
+                <div id="generate-div" class="column-element">
+                    <button @click="generate_file" class="noto-sans-button">GENERATE</button>
+                </div>
+                <div id="download-div" class="column-element">
+                    <button class="noto-sans-button">DOWNLOAD</button>
+                </div>
+           </div> 
+        </div>
     </div>
 </template>
 
@@ -62,6 +67,19 @@ const generate_file = () => {
     margin-left: 2rem;
 }
 
+#close-button-div {
+    position: relative;
+    width: 100%;
+    height: fit-content;
+    text-align: right;
+}
+
+#close-button {
+    text-align: right;
+    margin-right: 2rem;
+    margin-top: 2rem;
+}
+
 #selected-option {
     margin-left: 2rem;
     margin-top: 0;
@@ -81,15 +99,19 @@ const generate_file = () => {
     align-items: center;
 }
 
-#options-div {
-    height: 40vh;
-    width: 30vw;
-    background-color: white;
+#selection-div {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
     justify-content: space-around;
-    align-items: center;
+    height: 80%;
+}
+
+#options-div {
+    position: relative;
+    height: 30rem;
+    width: 40rem;
+    background-color: white;
 }
 
 </style>
