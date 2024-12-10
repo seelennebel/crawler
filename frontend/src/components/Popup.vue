@@ -1,6 +1,6 @@
 <template>
     <div id="popup-div">
-        <div v-if="props.content == undefined" class="options-div">
+        <div v-if="props.mode == 'download'" class="options-div">
             <div id="close-button-div">
                 <button @click="$emit('show-popup', false)" id="close-button">&#215;</button>
             </div>
@@ -22,24 +22,23 @@
            </div> 
         </div>
         <div v-else class="options-div">
-            <h1>{{ props.content }}</h1>
             <div id="close-button-div">
                 <button @click="$emit('show-popup', false)" id="close-button">&#215;</button>
             </div>
+            <h1>{{ props.content }}</h1>
         </div>
     </div>
 </template>
 
 <script setup>
 
-import { ref, defineProps } from "vue";
+import { ref, defineProps, onUnmounted, onMounted } from "vue";
 
 const props = defineProps({
     date: Number,
-    content: Object
+    content: Object,
+    mode: String
 });
-
-console.log(props.content);
 
 const selected_option = ref("")
 const canvas_option = ref("CANVAS");

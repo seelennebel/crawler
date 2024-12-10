@@ -1,17 +1,17 @@
 <template>
 
 <div id="main" ref="main-div" @keyup.esc="hide">
-  <Popup @show-popup="(status) => popup=status" :date="selected_date" :content="popup_content" v-if="popup" />
+  <Popup @show-popup="(status) => popup=status" :date="selected_date" :content="popup_content" :mode="component_mode" v-if="popup" />
 
   <div id="main-div">
 
     <NavBar id="navbar"
-      @show-popup="(status) => show_popup(status)"
+      @show-popup="(status) => show_popup(status, 'download')"
       @refresh="(date) => {refresh(date); selected_date = date}"
       @date-selection="(date) => {fetch_events(date); selected_date = date}" />
 
     <div id="content-div">
-      <Event @content="(content) => { popup_content = { 'errors' : content.errors, 'title' : content.title }; show_popup(content.popup) }" :events="events" />
+      <Event @content="(content) => { popup_content = { 'errors' : content.errors, 'title' : content.title }; show_popup(content.popup, 'event') }" :events="events" />
     </div>    
   </div id="main-div">
 </div>
@@ -32,14 +32,17 @@ const selected_date = ref("");
 const popup = ref(false);
 const main_div = useTemplateRef("main-div");
 const popup_content = ref();
+const component_mode = ref("");
 
+// hides the popup component with the ESC key
 const hide = () => {
   popup.value = false;
 }
 
-const show_popup = (status) => {
+const show_popup = (status, mode) => {
   main_div.value.style.overflowY = "";
   popup.value = status;
+  component_mode.value = mode;
 }
 
 // used for ISO strings
