@@ -6,7 +6,10 @@
         <div v-else v-for="event in updated_events" class="event-container">
             <button @click="delete_event(event)" class="close-button">&#215;</button>
             <p>{{ event.start_time }}-{{ event.end_time }}</p>
-            <p class="title">{{ event.title }}</p>
+
+            <p @click="$emit('content', {'errors' : event.errors, 'popup' : true, 'title' : event.title})"
+                class="title">{{ event.title }}</p>
+
             <div id="tutor-div">
                 <p v-if="event.tutor != ''">{{ event.tutor }}</p>
                 <p v-else id="tutor-error">No tutor</p>

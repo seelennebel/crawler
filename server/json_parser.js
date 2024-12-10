@@ -114,32 +114,8 @@ class json_parser {
         return room_errors;
     }
 
-    check_errors(event) {
-        let errors = {
-            location: {
-                room_reservation: "",
-                room_name: ""
-            },
-            tutor: "",
-            virtual_classroom_link: ""
-        };
 
-        if (event.hasOwnProperty("custom")) {
-            if (!event.custom.hasOwnProperty("virtual_classroom_link")) {
-                errors.virtual_classroom_link = "Error: virtual classroom link";
-            }
-        }
-
-        if (!this.exists(event.who)) {
-            errors.tutor = "Error: no tutor";
-        }
-
-        errors.location = this.check_campus_room(event);
-
-        return errors;
-    }
-
-/*
+// this function can be tried to written with reccursion
     no_errors(errors) {
         let error = true;
         for (var key in errors) {
@@ -158,37 +134,32 @@ class json_parser {
             return error;
         }
     }
-*/
   
-/*
-    create_errors_string(errors) {
-        let errors_string = "";
-        if (this.no_errors(errors)) {
-            errors_string = undefined;
-            return errors_string;
-        }
-        else {
-            for (var key in errors) {
-                if (key == "location") {
-                    for (var location_key in errors[key]) {
-                        if (errors[key][location_key] !== "") {
-                            errors_string += errors[key][location_key];
-                            errors_string += "\n"
-                        }
-                    }
-                }
-                else {
-                    if (errors[key] !== "") {
-                        errors_string += errors[key];
-                        errors_string += "\n";
-                    }
-                }
-            }
-            return errors_string;
-        }
-    }
-*/
+    check_errors(event) {
+        let errors = {
+            location: {
+                room_reservation: "",
+                room_name: ""
+            },
+            tutor: "",
+            virtual_classroom_link: ""
+        };      
 
+        errors.location = this.check_campus_room(event);
+
+        if (!this.exists(event.who)) {
+            errors.tutor = "Error: no tutor";
+        }
+
+        if (event.hasOwnProperty("custom")) {
+            if (!event.custom.hasOwnProperty("virtual_classroom_link")) {
+                errors.virtual_classroom_link = "Error: no virtual classroom link";
+            }
+        }
+        return errors;
+    }
+
+// checks if an object has a proterty and if this property is undefined
     is_valid(object, property) {
         if(object.hasOwnProperty(property) || object[property] != undefined)
             return true;
@@ -196,7 +167,6 @@ class json_parser {
             return false;
         }
     }
-
 
 // generate the json object with errors
     generate_json(events) {
@@ -228,6 +198,8 @@ class json_parser {
                     virtual_classroom_link = events_list[i].custom.virtual_classroom_link;
                 }
             }
+            
+            let checked_errors = this.check_errors(events_list[i]);
 
             json.events[i] = {
                 index: i,
@@ -237,7 +209,7 @@ class json_parser {
                 tutor: events_list[i].who,
                 location: campus_room_location,
                 virtual_classroom_link: virtual_classroom_link,
-                //errors: this.create_errors_string(this.check_errors(res_events[i]))
+                errors: this.no_errors(checked_errors) ? "" : checked_errors,
             }
         }
         return json;

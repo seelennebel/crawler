@@ -1,7 +1,7 @@
 <template>
 
 <div id="main" ref="main-div" @keyup.esc="hide">
-  <Popup @show-popup="(status) => popup=status":date="selected_date" v-if="popup" />
+  <Popup @show-popup="(status) => popup=status" :date="selected_date" :content="popup_content" v-if="popup" />
 
   <div id="main-div">
 
@@ -11,7 +11,7 @@
       @date-selection="(date) => {fetch_events(date); selected_date = date}" />
 
     <div id="content-div">
-      <Event :events="events" />
+      <Event @content="(content) => { popup_content = { 'errors' : content.errors, 'title' : content.title }; show_popup(content.popup) }" :events="events" />
     </div>    
   </div id="main-div">
 </div>
@@ -31,6 +31,7 @@ const events = ref([]);
 const selected_date = ref("");
 const popup = ref(false);
 const main_div = useTemplateRef("main-div");
+const popup_content = ref();
 
 const hide = () => {
   popup.value = false;

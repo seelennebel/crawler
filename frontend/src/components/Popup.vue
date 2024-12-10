@@ -1,6 +1,6 @@
 <template>
     <div id="popup-div">
-        <div id="options-div">
+        <div v-if="props.content == undefined" class="options-div">
             <div id="close-button-div">
                 <button @click="$emit('show-popup', false)" id="close-button">&#215;</button>
             </div>
@@ -21,6 +21,12 @@
                 </div>
            </div> 
         </div>
+        <div v-else class="options-div">
+            <h1>{{ props.content }}</h1>
+            <div id="close-button-div">
+                <button @click="$emit('show-popup', false)" id="close-button">&#215;</button>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -29,8 +35,11 @@
 import { ref, defineProps } from "vue";
 
 const props = defineProps({
-    date: Number
+    date: Number,
+    content: Object
 });
+
+console.log(props.content);
 
 const selected_option = ref("")
 const canvas_option = ref("CANVAS");
@@ -107,7 +116,7 @@ const generate_file = () => {
     height: 80%;
 }
 
-#options-div {
+.options-div {
     position: relative;
     height: 30rem;
     width: 40rem;
