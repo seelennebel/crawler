@@ -25,14 +25,26 @@
             <div id="close-button-div">
                 <button @click="$emit('show-popup', false)" id="close-button">&#215;</button>
             </div>
-            <h1>{{ props.content }}</h1>
+            <h1>{{ props.content.title }}</h1>
+            <div v-if="props.content.errors != ''">
+                <h2>Location errors: </h2>
+                <ul v-if="props.content.errors.location.room_name == '' && props.content.errors.location.room_reservation ==''">
+                    <li>{{ props.content.errors.location.room_name }}</li>
+                    <li>{{ props.content.errors.location.room_reservation }}</li>
+                </ul>
+                <h2 v-if="props.content.errors.tutor != ''">Tutor | {{ props.content.errors.tutor }}</h2>
+                <h2 v-if="props.content.errors.virtual_classroom_link != ''">Virtual classroom link | {{ props.content.errors.virtual_classroom_link}}</h2>
+            </div>
+            <div v-else>
+                <h2>No errors</h2>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup>
 
-import { ref, defineProps, onUnmounted, onMounted } from "vue";
+import { ref, defineProps } from "vue";
 
 const props = defineProps({
     date: Number,

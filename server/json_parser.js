@@ -145,7 +145,7 @@ class json_parser {
             virtual_classroom_link: ""
         };      
 
-        errors.location = this.check_campus_room(event);
+        event.hasOwnProperty("custom") ? this.check_campus_room(event) : errors.location = "ERROR";
 
         if (!this.exists(event.who)) {
             errors.tutor = "Error: no tutor";
@@ -155,6 +155,9 @@ class json_parser {
             if (!event.custom.hasOwnProperty("virtual_classroom_link")) {
                 errors.virtual_classroom_link = "Error: no virtual classroom link";
             }
+        }
+        else {
+            errors.virtual_classroom_link = "ERROR";
         }
         return errors;
     }
@@ -194,8 +197,14 @@ class json_parser {
                 if (this.is_valid(events_list[i].custom, "campus_room_location")) {
                     campus_room_location = events_list[i].custom.campus_room_location;
                 }
+                else {
+                    campus_room_location = "No room location";
+                }
                 if (this.is_valid(events_list[i].custom, "virtual_classroom_link")) {
                     virtual_classroom_link = events_list[i].custom.virtual_classroom_link;
+                }
+                else {
+                    virtual_classroom_link = "No virtual classroom link";
                 }
             }
             
