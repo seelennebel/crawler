@@ -25,20 +25,20 @@
             <div id="close-button-div">
                 <button @click="$emit('show-popup', false)" id="close-button">&#215;</button>
             </div>
-            <div>
-            <h1 class="noto-sans-button">{{ props.content.title }}</h1>
-            <div v-if="props.content.errors != ''" class="noto-sans-button">
-                <h2 v-if="props.content.errors.location.room_name !='' && props.content.errors.location.room_reservation != ''">Location errors: </h2>
-                <ul v-if="props.content.errors.location.room_name != '' && props.content.errors.location.room_reservation !=''">
-                    <li>{{ props.content.errors.location.room_name }}</li>
-                    <li>{{ props.content.errors.location.room_reservation }}</li>
-                </ul>
-                <h2 v-if="props.content.errors.tutor != ''">Tutor | {{ props.content.errors.tutor }}</h2>
-                <h2 v-if="props.content.errors.virtual_classroom_link != ''">Virtual classroom link | {{ props.content.errors.virtual_classroom_link}}</h2>
-            </div>
-            <div v-else>
-                <h2 class="noto-sans-button">No errors</h2>
-            </div>
+            <div id="margin-div">
+                <h1 class="noto-sans-button" id="title">{{ props.content.title }}</h1>
+                <div v-if="props.content.errors != ''">
+                    <h2 class="noto-sans-button" v-if="props.content.errors.location.room_name !='' && props.content.errors.location.room_reservation != ''">Location errors: </h2>
+                    <ul class="noto-sans-button" v-if="props.content.errors.location.room_name != '' && props.content.errors.location.room_reservation !=''">
+                        <li>Room name: {{ props.content.errors.location.room_name }}</li>
+                        <li>Room reservation: {{ props.content.errors.location.room_reservation }}</li>
+                    </ul>
+                    <h2 class="noto-sans-button" v-if="props.content.errors.tutor != ''">Tutor: {{ props.content.errors.tutor }}</h2>
+                    <h2 class="noto-sans-button" v-if="props.content.errors.virtual_classroom_link != ''">Virtual classroom link: {{ props.content.errors.virtual_classroom_link}}</h2>
+                </div>
+                <div v-else>
+                    <h2 class="noto-sans-button">No errors</h2>
+                </div>
             </div>
         </div>
     </div>
@@ -60,28 +60,6 @@ const schedule_option = ref("SCHEDULE");
 
 const select_option = (option) => {
     selected_option.value = option;
-}
-
-const no_errors = (errors) => {
-    let value = true;
-    let keys = Object.keys(errors);
-    for(let i = 0; i < keys.length; ++i) {
-        if(keys[i] == "location") {
-            let location_errors = errors[keys[i]];
-            let location_keys = Object.keys(errors[keys[i]]);
-            for(let n = 0; n < location_keys.length; ++n) {
-                if(location_errors[location_keys[n]] != "") {
-                    value = false;
-                }
-            }
-        }
-        else {
-            if(errors[keys[i]] != "") {
-                value = false;
-            }
-        }
-    }
-    return value;
 }
 
 const generate_file = () => {
@@ -163,6 +141,14 @@ const generate_file = () => {
     height: 40rem;
     width: 60rem;
     background-color: white;
+}
+
+#margin-div {
+    margin-left: 2rem;
+}
+
+#title {
+    font-size: 3rem;
 }
 
 </style>
