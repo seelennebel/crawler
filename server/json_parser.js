@@ -94,7 +94,7 @@ class json_parser {
                 break;
             }
             else {
-                room_errors.room_reservation = "Error: no room reservation";
+                room_errors.room_reservation = "ERROR";
             }
         }
 
@@ -102,11 +102,11 @@ class json_parser {
 
         if (event.hasOwnProperty("custom")) {
             if (!event.custom.hasOwnProperty("campus_room_location")) {
-                room_errors.room_name = "Error";
+                room_errors.room_name = "ERROR";
             }
             else {
                 if (event.custom.campus_room_location != reservation_room_name) {
-                    room_errors.room_name = "Error: room name is not correct";
+                    room_errors.room_name = "ERROR";
                 }
             }
         }
@@ -114,27 +114,28 @@ class json_parser {
         return room_errors;
     }
 
-
 // this function can be tried to written with reccursion
-    no_errors(errors) {
-        let error = true;
-        for (var key in errors) {
-            if (key == "location") {
-                for (var location_key in errors[key]) {
-                    if (errors[key][location_key] !== "") {
-                        error = false;
-                    }
+no_errors(errors) {
+    let value = true;
+    let keys = Object.keys(errors);
+    for(let i = 0; i < keys.length; ++i) {
+        if(keys[i] == "location") {
+            let location_errors = errors[keys[i]];
+            let location_keys = Object.keys(errors[keys[i]]);
+            for(let n = 0; n < location_keys.length; ++n) {
+                if(location_errors[location_keys[n]] != "") {
+                    value = false;
                 }
             }
-            else {
-                if (errors[key] !== "") {
-                    error = false;
-                }
+        }
+        else {
+            if(errors[keys[i]] != "") {
+                value = false;
             }
-            return error;
         }
     }
-  
+    return value;
+}
     check_errors(event) {
         let errors = {
             location: {
@@ -145,15 +146,21 @@ class json_parser {
             virtual_classroom_link: ""
         };      
 
-        event.hasOwnProperty("custom") ? this.check_campus_room(event) : errors.location = "ERROR";
+        if(event.hasOwnProperty("custom")) {
+            errors.location = this.check_campus_room(event)
+        }
+        else {
+            errors.location.room_reservation = "ERROR";
+            errors.location.room_name = "ERROR"
+        }
 
         if (!this.exists(event.who)) {
-            errors.tutor = "Error: no tutor";
+            errors.tutor = "ERROR";
         }
 
         if (event.hasOwnProperty("custom")) {
             if (!event.custom.hasOwnProperty("virtual_classroom_link")) {
-                errors.virtual_classroom_link = "Error: no virtual classroom link";
+                errors.virtual_classroom_link = "ERROR";
             }
         }
         else {
@@ -218,7 +225,7 @@ class json_parser {
                 tutor: events_list[i].who,
                 location: campus_room_location,
                 virtual_classroom_link: virtual_classroom_link,
-                errors: this.no_errors(checked_errors) ? "" : checked_errors,
+                errors: this.no_errors(checked_errors) ? "" : checked_errors
             }
         }
         return json;
