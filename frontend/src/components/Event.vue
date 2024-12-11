@@ -14,6 +14,9 @@
                 <p v-if="event.tutor != ''">{{ event.tutor }}</p>
                 <p v-else id="tutor-error">No tutor</p>
             </div>
+            <div v-if="event.errors != ''" v-for="error in Object.keys(extract_errors(event.errors))" class="errors-div">
+                {{ error }}
+            </div>
         </div>
 
 </template>
@@ -38,6 +41,29 @@ const delete_event = (event) => {
     }
 }
 
+const extract_errors = (errors) => {
+    let extracted = {};
+    let keys = Object.keys(errors);
+
+    for(let i = 0; i < keys.length; ++i) {
+        if(keys[i] == "location") {
+            let location_errors = errors[keys[i]];
+            let location_keys = Object.keys(errors[keys[i]]);
+            for(let n = 0; n < location_keys.length; ++n) {
+                if(location_errors[location_keys[n]] != "") {
+                    extracted[location_keys[n]] =location_errors[location_keys[n]];
+                }
+            }
+        }
+        else {
+            if(errors[keys[i]] != "") {
+                extracted[keys[i]] = errors[keys[i]];
+            }
+        }
+    }
+    return extracted;
+}
+
 </script>
 
 <style scoped>
@@ -46,6 +72,13 @@ p {
     margin: 0;
     color: white;
 
+}
+
+.errors-div {
+    color: white;
+    border: 1px solid white;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
 }
 
 .title {
@@ -86,7 +119,7 @@ p {
 }
 
 #tutor-div {
-    width: 15vw;
+    width: 10vw;
 }
 
 #no-events-text {
