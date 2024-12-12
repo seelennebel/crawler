@@ -3,6 +3,7 @@ import dotenv from "dotenv"
 import cors from "cors";
 import path from "path";
 import json_router from "./routers/json_router.js";
+import file_router from "./routers/file_router.js";
 
 dotenv.config()
 const __dirname = import.meta.dirname;
@@ -11,7 +12,8 @@ const PORT = process.env.PORT || 8080;
 
 const app = express();
 
-app.use("/api", json_router)
+app.use("/api", json_router);
+app.use("/api", file_router);
 
 app.use(express.static(path.join(__dirname, "/../frontend/dist/")));
 

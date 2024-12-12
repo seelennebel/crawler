@@ -61,7 +61,7 @@ class json_parser {
                     let start_date = this.time_string_parser(events[i].start_dt);
                     let end_date = this.time_string_parser(events[i].end_dt);
 
-                    let content = this.generate_content_SCHEDULE(i, process.env.OS_SEPARATOR, start_date, end_date, events[i].title, events[i].who, events[i].custom.campus_room_location);
+                    let content = this.generate_content_SCHEDULE(i, process.env.SEPARATOR, start_date, end_date, events[i].title, events[i].who, events[i].custom.campus_room_location);
                     this.append_file(date, content);
 
                 }

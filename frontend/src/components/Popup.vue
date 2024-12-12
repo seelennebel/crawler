@@ -15,9 +15,10 @@
                 </div>
                 <div id="generate-div" class="column-element">
                     <button @click="generate_file" class="noto-sans-button">GENERATE</button>
+                    <p class="noto-sans-button">{{ filename }}</p>
                 </div>
                 <div id="download-div" class="column-element">
-                    <button class="noto-sans-button">DOWNLOAD</button>
+                    <a ref="download_button" class="noto-sans-button">DOWNLOAD</a>
                 </div>
            </div> 
         </div>
@@ -46,7 +47,7 @@
 
 <script setup>
 
-import { ref, defineProps } from "vue";
+import { ref, defineProps, useTemplateRef } from "vue";
 
 const props = defineProps({
     date: Number,
@@ -57,6 +58,9 @@ const props = defineProps({
 const selected_option = ref("")
 const canvas_option = ref("CANVAS");
 const schedule_option = ref("SCHEDULE");
+const filename = ref("");
+
+const download_button = useTemplateRef("download_button");
 
 const select_option = (option) => {
     selected_option.value = option;
@@ -72,6 +76,11 @@ const generate_file = () => {
         body: JSON.stringify({ date: props.date })
     }
     fetch(url, options)
+        .then(res => res.json())
+        .then(json => {
+            filename.value=json;
+            download_button.value.setAttribute("href", `${import.meta.env.APP_SERVER_URL}api/${filename.value}`);
+        })
 }
 
 </script>

@@ -32,19 +32,4 @@ router.post("/fetch_events_with_errors", async (req, res) => {
   }
 });
 
-/*
-router.post("/download_file", (req, res) => {
-  const { date } = req.body;
-  const parser = new json_parser();
-  try {
-    const result = parser.create_csv_document(date)
-    res.status(200).json(result);
-  }
-  catch (error) {
-    res.status(404).send(error);
-    console.log(error);
-  }
-});
-*/
-
 export default router;
