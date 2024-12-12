@@ -28,13 +28,13 @@
             <div id="margin-div">
                 <h1 class="noto-sans-button" id="title">{{ props.content.title }}</h1>
                 <div v-if="props.content.errors != ''">
-                    <h2 class="noto-sans-button" v-if="props.content.errors.location.room_name !='' && props.content.errors.location.room_reservation != ''">Location errors: </h2>
-                    <ul class="noto-sans-button" v-if="props.content.errors.location.room_name != '' && props.content.errors.location.room_reservation !=''">
-                        <li>Room name: {{ props.content.errors.location.room_name }}</li>
-                        <li>Room reservation: {{ props.content.errors.location.room_reservation }}</li>
+                    <h2 class="noto-sans-button" v-if="props.content.errors.location.room_name !='' || props.content.errors.location.reservation != ''">Location errors: </h2>
+                    <ul class="noto-sans-button">
+                        <li v-if="props.content.errors.location.room_name != ''">Room name: {{ props.content.errors.location.room_name }}</li>
+                        <li v-if="props.content.errors.location.reservation != ''">Room reservation: {{ props.content.errors.location.reservation }}</li>
                     </ul>
                     <h2 class="noto-sans-button" v-if="props.content.errors.tutor != ''">Tutor: {{ props.content.errors.tutor }}</h2>
-                    <h2 class="noto-sans-button" v-if="props.content.errors.virtual_classroom_link != ''">Virtual classroom link: {{ props.content.errors.virtual_classroom_link}}</h2>
+                    <h2 class="noto-sans-button" v-if="props.content.errors.link != ''">Virtual classroom link: {{ props.content.errors.link}}</h2>
                 </div>
                 <div v-else>
                     <h2 class="noto-sans-button">No errors</h2>

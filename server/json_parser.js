@@ -81,20 +81,20 @@ class json_parser {
     check_campus_room(event) {
 
         let room_errors = {
-            room_name: "",
-            room_reservation: ""
+            reservation: "",
+            room_name: ""
         }
 
         let index = 0;
 
         for (let i = 0; i < room_IDs.rooms.length; ++i) {
             if (event.subcalendar_ids.includes(room_IDs.rooms[i].id) === true) {
-                room_errors.room_reservation = "";
+                room_errors.reservation = "";
                 index = i;
                 break;
             }
             else {
-                room_errors.room_reservation = "ERROR";
+                room_errors.reservation = "ERROR";
             }
         }
 
@@ -139,18 +139,18 @@ no_errors(errors) {
     check_errors(event) {
         let errors = {
             location: {
-                room_reservation: "",
+                reservation: "", //room_reservation
                 room_name: ""
             },
             tutor: "",
-            virtual_classroom_link: ""
+            link: "" //virtual_classroom_link
         };      
 
         if(event.hasOwnProperty("custom")) {
             errors.location = this.check_campus_room(event)
         }
         else {
-            errors.location.room_reservation = "ERROR";
+            errors.location.reservation = "ERROR";
             errors.location.room_name = "ERROR"
         }
 
@@ -160,11 +160,11 @@ no_errors(errors) {
 
         if (event.hasOwnProperty("custom")) {
             if (!event.custom.hasOwnProperty("virtual_classroom_link")) {
-                errors.virtual_classroom_link = "ERROR";
+                errors.link = "ERROR";
             }
         }
         else {
-            errors.virtual_classroom_link = "ERROR";
+            errors.link = "ERROR";
         }
         return errors;
     }

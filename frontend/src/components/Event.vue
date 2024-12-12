@@ -12,10 +12,10 @@
 
             <div id="tutor-div">
                 <p v-if="event.tutor != ''">{{ event.tutor }}</p>
-                <p v-else id="tutor-error">No tutor</p>
+                <p v-else class="errors">No tutor</p>
             </div>
             <div v-if="event.errors != ''" v-for="error in Object.keys(extract_errors(event.errors))" class="errors-div">
-                {{ error }}
+                <p class="errors">{{ error }}</p>
             </div>
         </div>
 
@@ -71,7 +71,15 @@ const extract_errors = (errors) => {
 p {
     margin: 0;
     color: white;
+}
 
+.errors {
+    color: red;
+    font-family: "Noto Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 2rem;
 }
 
 .errors-div {
@@ -114,12 +122,8 @@ p {
 
 }
 
-#tutor-error {
-    color: red;
-}
-
 #tutor-div {
-    width: 10vw;
+    width: 12vw;
 }
 
 #no-events-text {
