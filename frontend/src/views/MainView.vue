@@ -1,7 +1,7 @@
 <template>
 
 <div id="main" ref="main-div" @keyup.esc="hide">
-  <Popup @show-popup="(status) => popup=status" :date="selected_date" :content="popup_content" :mode="component_mode" v-if="popup" />
+  <Popup @show-popup="(status) => popup=status" :date="selected_date" :content="popup_content" :mode="component_mode" :events="events" v-if="popup" />
 
   <div id="main-div">
 

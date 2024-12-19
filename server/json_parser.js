@@ -20,8 +20,25 @@ class json_parser {
     }
 
 // create a file with a "specfic" name
-    create_file(date) {
+    create_schedule_file(date) {
         fs.open(`./EVENTS/SCHEDULE_events_${date}.csv`, "a", (err, file) => {
+            if (err) {
+                throw err;
+            }
+        });
+    }
+
+    create_canvas_file(date) {
+        fs.open(`./EVENTS/CANVAS_events_${date}.csv`, "a", (err, file) => {
+            if (err) {
+                throw err;
+            }
+        });
+    }
+
+// append the file
+    append_schedule_file(date, contents) {
+        fs.appendFile(`./EVENTS/SCHEDULE_events_${date}.csv`, contents, (err, file) => {
             if (err) {
                 console.log(err, file);
                 throw err;
@@ -29,9 +46,8 @@ class json_parser {
         });
     }
 
-// append the file
-    append_file(date, contents) {
-        fs.appendFile(`./EVENTS/SCHEDULE_events_${date}.csv`, contents, (err, file) => {
+    append_canvas_file(date, contents) {
+        fs.appendFile(`./EVENTS/CANVAS_events_${date}.csv`, contents, (err, file) => {
             if (err) {
                 console.log(err, file);
                 throw err;
@@ -52,21 +68,27 @@ class json_parser {
         return new_str;
     }
 
-    create_csv_document(date) {
-        this.create_file(date);
-        this.fetch_calendar(date)
-            .then(res => {
-                const events = res.events;
-                for (let i = 0; i < events.length; ++i) {
-                    let start_date = this.time_string_parser(events[i].start_dt);
-                    let end_date = this.time_string_parser(events[i].end_dt);
+    generate_content_CANVAS(i, separator, title) {
+        return `${i}${separator}"${title}"\n`;
+    }
 
-                    let content = this.generate_content_SCHEDULE(i, process.env.SEPARATOR, start_date, end_date, events[i].title, events[i].who, events[i].custom.campus_room_location);
-                    this.append_file(date, content);
-
-                }
-            });
-        return `SCHEDULE_events_${date}.csv`
+    create_csv_document(date, option, events) {
+        if(option != "CANVAS") {
+            this.create_schedule_file(date);
+            for(let i = 0; i < events.length; ++i) {
+                let content = this.generate_content_SCHEDULE(i, process.env.SEPARATOR, events[i].start_time, events[i].end_time, events[i].title, events[i].tutor, events[i].location);
+                this.append_schedule_file(date, content);
+            }
+            return `SCHEDULE_events_${date}.csv`
+        }
+        else {
+            this.create_canvas_file(date);
+            for(let i = 0; i < events.length; ++i) {
+                let content = this.generate_content_CANVAS(i, process.env.SEPARATOR, events[i].title);
+                this.append_canvas_file(date, content);
+            }
+            return `CANVAS_events_${date}.csv`
+        }
     }
 
     exists(object) {

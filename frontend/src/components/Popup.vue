@@ -52,7 +52,8 @@ import { ref, defineProps, useTemplateRef } from "vue";
 const props = defineProps({
     date: Number,
     content: Object,
-    mode: String
+    mode: String,
+    events: Array
 });
 
 const selected_option = ref("")
@@ -73,7 +74,7 @@ const generate_file = () => {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ date: props.date })
+        body: JSON.stringify({ date: props.date, option: selected_option.value, events: props.events })
     }
     fetch(url, options)
         .then(res => res.json())

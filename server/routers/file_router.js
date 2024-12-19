@@ -11,10 +11,10 @@ router.use(cors());
 const __dirname = import.meta.dirname;
 
 router.post("/download_file", (req, res) => {
-  const { date } = req.body;
+  const { date, option, events } = req.body;
   const parser = new json_parser();
   try {
-    const result = parser.create_csv_document(date)
+    const result = parser.create_csv_document(date, option, events)
     res.status(200).json(result);
   }
   catch (error) {
