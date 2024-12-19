@@ -4,9 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN npm install
-
-RUN npm install -g npm@latest         
+RUN npm install -g npm@latest; npm install
 
 CMD [ "npm", "run", "server" ]
 
