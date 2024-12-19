@@ -1,0 +1,5 @@
+./node_modules
+README.md
+./frontend/dist
+./server/.env
+./frontend/.env

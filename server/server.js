@@ -5,6 +5,8 @@ import path from "path";
 import json_router from "./routers/json_router.js";
 import file_router from "./routers/file_router.js";
 
+console.log(process.env)
+
 dotenv.config()
 const __dirname = import.meta.dirname;
 
