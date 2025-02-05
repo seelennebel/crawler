@@ -4,11 +4,14 @@ import path from "path";
 import fs from "fs";
 import json_parser from "../json_parser.js";
 
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+    
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 const router = express.Router();
 router.use(express.json());
 router.use(cors());
-
-const __dirname = import.meta.dirname;
 
 router.post("/download_file", (req, res) => {
   const { date, option, events } = req.body;

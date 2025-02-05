@@ -5,10 +5,14 @@ import path from "path";
 import json_router from "./routers/json_router.js";
 import file_router from "./routers/file_router.js";
 
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+    
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 console.log(process.env)
 
 dotenv.config()
-const __dirname = import.meta.dirname;
 
 const PORT = process.env.PORT || 8080;
 
